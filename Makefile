@@ -9,7 +9,7 @@ CC = gcc
 # - ./include/libmnl: libmnl v1.0.5
 # - ./include/libnftnl: libnftnl v1.2.6
 # - ./include/linux-lts-6.1.72: linux v6.1.72
-CFLAGS = -std=gnu99 -I./include -I./include/linux-lts-6.1.72 -Wall -Wno-deprecated-declarations
+CFLAGS = -std=gnu99 -I./include -I./include/linux-lts-6.1.72 -Wall -Wno-deprecated-declarations -DDEBUG
 
 # use custom object archives compiled with musl-gcc for compatibility. normal ones 
 #   are used with gcc and have _chk funcs which musl doesn't support
