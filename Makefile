@@ -3,13 +3,13 @@ OUT_NAME = ./exploit
 
 # use musl-gcc since statically linking glibc with gcc generated invalid opcodes for qemu
 #   and dynamically linking raised glibc ABI versioning errors
-CC = gcc
+CC = musl-gcc
 
 # use custom headers with fixed versions in a musl-gcc compatible manner
 # - ./include/libmnl: libmnl v1.0.5
 # - ./include/libnftnl: libnftnl v1.2.6
 # - ./include/linux-lts-6.1.72: linux v6.1.72
-CFLAGS = -std=gnu99 -I./include -I./include/linux-lts-6.1.72 -Wall -Wno-deprecated-declarations -DDEBUG
+CFLAGS = -I./include -I./include/linux-lts-6.1.72 -Wall -Wno-deprecated-declarations
 
 # use custom object archives compiled with musl-gcc for compatibility. normal ones 
 #   are used with gcc and have _chk funcs which musl doesn't support
@@ -22,7 +22,7 @@ run: _run_outfile
 clean: _clean_outfile
 
 _compile_static:
-	$(CC) $(CFLAGS) $(SRC_FILES) -o $(OUT_NAME) $(LIBNFTNL_PATH) $(LIBMNL_PATH)
+	$(CC) $(CFLAGS) $(SRC_FILES) -o $(OUT_NAME) -static $(LIBNFTNL_PATH) $(LIBMNL_PATH)
 _strip_bin:
 	strip $(OUT_NAME)
 _run_outfile:
